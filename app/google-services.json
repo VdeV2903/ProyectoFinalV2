@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "513830172424",
+    "firebase_url": "https://bitacorabog-d238d-default-rtdb.firebaseio.com",
+    "project_id": "bitacorabog-d238d",
+    "storage_bucket": "bitacorabog-d238d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:513830172424:android:f51fc5ce4be2bc22dd5ebd",
+        "android_client_info": {
+          "package_name": "com.example.proyectofinal_marcosmedina"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDfqZraWgefdAt9P3U-sb0qq4B7AQlIUzU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
