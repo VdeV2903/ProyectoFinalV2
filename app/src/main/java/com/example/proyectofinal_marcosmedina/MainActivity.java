@@ -69,37 +69,44 @@ public class MainActivity extends AppCompatActivity {
         Intent regis = new Intent(this, Register.class);
         startActivityForResult(regis,1);
     }
-    String uidQuered="default",nombre;
+    String uidQuered,nombreQuered;
     public void loginFinal(){
         try{
-            BDConnection bd = new BDConnection(this,"bitacora",null,1);
-            SQLiteDatabase baseBitacora = bd.getWritableDatabase();
-            String loginQuery = "SELECT UID,Nombre FROM usuarios WHERE Usuario = '"+userExt+"' AND Contraseña = '"+passExt+"'";
-            Cursor datos = baseBitacora.rawQuery(loginQuery,null);
+            BDConnection bd2 = new BDConnection(this,"bitacora",null,1);
+            SQLiteDatabase baseBitacora2 = bd2.getWritableDatabase();
+            String loginQuery2 = "SELECT UID,Nombre FROM usuarios WHERE Usuario = '"+userExt+"' AND Contraseña = '"+passExt+"'";
+            Cursor datosLoad = baseBitacora2.rawQuery(loginQuery2,null);
             if(sesion.isChecked()){
-                if (datos.moveToFirst()) {
-                    uidQuered = datos.getString(0).toString();
-                    nombre = datos.getString(1).toString();
+                if (datosLoad.moveToFirst()) {
+                    uidQuered = datosLoad.getString(0);
+
+                    nombreQuered = datosLoad.getString(1);
 
                     SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("UID", uidQuered);
-                    editor.putString("Nombre", nombre);
+                    editor.putString("Nombre", nombreQuered);
+                    editor.putString("UIDtemp", uidQuered);
+                    editor.putString("NombreTemp", nombreQuered);
                     editor.apply();
                 }
             }else{
-                SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = sharedPreferences.edit();
-                editor.putString("UIDtemp", uidQuered);
-                editor.putString("NombreTemp", nombre);
-                editor.apply();
+                if (datosLoad.moveToFirst()) {
+                    uidQuered = datosLoad.getString(0);
+                    nombreQuered = datosLoad.getString(1);
+                    SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    editor.putString("UIDtemp", uidQuered);
+                    editor.putString("NombreTemp", nombreQuered);
+                    editor.apply();
+                }
             }
 
             usuario.setText("");
             contrasenia.setText("");
 
             Intent login = new Intent(this, MenuPrincipal.class);
-            Toast.makeText(this,"Sesión iniciada", Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"Sesión iniciada", Toast.LENGTH_SHORT).show();
             startActivity(login);
         }catch(SQLException ex){
             Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
@@ -115,10 +122,10 @@ public class MainActivity extends AppCompatActivity {
             if(!pref.equals("")){
                 this.startActivity(new Intent(this,MenuPrincipal.class));
                 this.finish();
-                Toast.makeText(this,"Sesión iniciada", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Sesión iniciada", Toast.LENGTH_SHORT).show();
             }
         }catch (Exception ex){
-            Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
+            Toast.makeText(this,ex.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 }

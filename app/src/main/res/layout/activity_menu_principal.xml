@@ -22,8 +22,8 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="56dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="4dp"
         android:text="Hola,"
         android:textColor="#000000"
         android:textSize="34sp"
@@ -35,8 +35,8 @@
         android:id="@+id/txtvNombre"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="24dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="16dp"
         android:text="TextView"
         android:textSize="24sp"
         app:layout_constraintStart_toEndOf="@+id/textView4"
@@ -54,31 +54,50 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:layout_width="353dp"
-        android:layout_height="412dp"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="4dp"
-        android:background="@drawable/border"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button"
-        tools:ignore="MissingConstraints"> <!-- Aplica el drawable como fondo -->
-
-
-    </LinearLayout>
-
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_width="320dp"
+        android:layout_height="63dp"
+        android:layout_marginTop="28dp"
         android:backgroundTint="#36BA11"
         android:text="Iniciar Viaje"
         app:icon="@drawable/baseline_car_rental_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.879"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtvNombre" />
+
+    <TextView
+        android:id="@+id/txtViajeBind"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="16dp"
+        android:text="Viaje Actual:"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="274dp"
+        android:layout_height="30dp"
+        android:text="No se ha iniciado ningun viaje"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtViajeBind" />
+
+    <LinearLayout
+        android:layout_width="354dp"
+        android:layout_height="52dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView6">
+
+    </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

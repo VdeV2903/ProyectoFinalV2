@@ -3,9 +3,12 @@ package com.example.proyectofinal_marcosmedina;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,8 +27,14 @@ public class MenuPrincipal extends AppCompatActivity {
         nombre = (TextView) findViewById(R.id.txtvNombre);
 
         SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
-        String name = sharedPreferences.getString("UID", "");
+        String name = sharedPreferences.getString("NombreTemp", "");
         nombre.setText(name);
+
+        if (isConnectedToInternet()) {
+            Toast.makeText(getApplicationContext(), "Conexión a Internet establecida", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(getApplicationContext(), "No hay conexión a Internet", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void cerrarSesion(View v) {
@@ -37,5 +46,13 @@ public class MenuPrincipal extends AppCompatActivity {
         Intent cerrar = new Intent(this, MainActivity.class);
         startActivity(cerrar);
 
+    }
+    private boolean isConnectedToInternet() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connectivityManager != null) {
+            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+            return networkInfo != null && networkInfo.isConnected();
+        }
+        return false;
     }
 }
