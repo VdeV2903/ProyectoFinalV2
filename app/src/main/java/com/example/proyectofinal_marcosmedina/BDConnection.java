@@ -19,7 +19,7 @@ public class BDConnection extends SQLiteOpenHelper {
                 "UID TEXT NOT NULL, " +
                 "Nombre TEXT NOT NULL, " +
                 "Usuario TEXT NOT NULL, " +
-                "Correo TEXT, " +
+                "Correo TEXT NOT NULL, " +
                 "Contraseña TEXT NOT NULL)");
 
         db.execSQL("CREATE TABLE Movimientos (" +
@@ -42,11 +42,23 @@ public class BDConnection extends SQLiteOpenHelper {
                 "FOREIGN KEY(ID_Usuario) REFERENCES usuarios(ID_Usuario)," +
                 "FOREIGN KEY(ID_Movimiento) REFERENCES Movimientos(ID_Movimiento))");
 
+        db.execSQL("CREATE TABLE MovimientosDetalleKilometros(" +
+                "ID_MovimientosDetalleKilometros INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "ID_Movimiento INTEGER NOT NULL, " +
+                "ID_DetalleKilometros INTEGER NOT NULL,"+
+                "FOREIGN KEY(ID_DetalleKilometros) REFERENCES DetalleKilometros(ID_DetalleKilometros)," +
+                "FOREIGN KEY(ID_Movimiento) REFERENCES Movimientos(ID_Movimiento))");
+
+        db.execSQL("CREATE TABLE DetalleKilometros(" +
+                "ID_DetalleKilometros INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "Siglas TEXT NOT NULL)");
+
         db.execSQL("CREATE TABLE TemporalesSesion(" +
                 "ID_Sesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "UID TEXT NOT NULL," +
                 "KilometrajeInicio TEXT NOT NULL," +
                 "DestinoSalida TEXT NOT NULL," +
+                "Fecha TEXT NOT NULL," +
                 "HoraSalida TEXT NOT NULL," +
                 "DetalleActividad TEXT NOT NULL)");
 

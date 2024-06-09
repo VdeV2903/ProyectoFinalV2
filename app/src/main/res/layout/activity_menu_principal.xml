@@ -75,6 +75,7 @@
         android:layout_marginStart="28dp"
         android:layout_marginTop="16dp"
         android:text="Viaje Actual:"
+        android:textColor="#000000"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btniniciardetener" />
@@ -83,21 +84,22 @@
         android:id="@+id/txtNoViaje"
         android:layout_width="274dp"
         android:layout_height="30dp"
+        android:layout_marginTop="20dp"
         android:text="No se ha iniciado ningun viaje"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtViajeBind" />
 
     <LinearLayout
         android:id="@+id/lyInfo"
-        android:layout_width="346dp"
-        android:layout_height="208dp"
-        android:layout_marginTop="4dp"
+        android:layout_width="318dp"
+        android:layout_height="211dp"
+        android:layout_marginTop="8dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtNoViaje">
 
@@ -106,6 +108,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Saliste de: ---"
+            android:textColor="#4E4E4E"
             android:textSize="18sp" />
 
         <TextView
@@ -113,6 +116,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Hora: ---"
+            android:textColor="#4E4E4E"
             android:textSize="18sp" />
 
         <TextView
@@ -120,6 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Fecha: ---"
+            android:textColor="#4E4E4E"
             android:textSize="18sp" />
 
         <TextView
@@ -127,6 +132,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Kilometraje Inicial: ---"
+            android:textColor="#4E4E4E"
             android:textSize="18sp" />
     </LinearLayout>
 

@@ -31,7 +31,7 @@ public class Register extends AppCompatActivity {
     int i = 0;
     public void registro(View v){
         try{
-            nombreExt = nombre.getText().toString();
+            nombreExt = nombre.getText().toString().toUpperCase();
             usuarioExt = usuario.getText().toString();
             correoExt = correo.getText().toString();
             contraseniaExt = contrasenia.getText().toString();

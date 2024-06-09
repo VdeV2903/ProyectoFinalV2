@@ -3,8 +3,9 @@ package com.example.proyectofinal_marcosmedina;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -23,84 +24,62 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-
-public class IniciarViaje extends AppCompatActivity {
-    private TextInputEditText txtHora;
+public class TerminarViaje extends AppCompatActivity {
+    private TextInputEditText txtHora,txtHoraLlegada;
     private TextInputEditText txtFecha;
     EditText txtLugar, txtKilometraje, txtDetalle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_iniciar_viaje);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        setContentView(R.layout.activity_terminar_viaje);
+
+        txtHora = findViewById(R.id.txtHora);
+        txtFecha = findViewById(R.id.txtFecha);
         txtLugar = findViewById(R.id.txtLugarSalida);
         txtKilometraje = findViewById(R.id.txtKilometraje);
         txtDetalle = findViewById(R.id.txtDetalle);
 
+        cargarDatos();
+
         txtHora = findViewById(R.id.txtHora);
         txtHora.setFocusable(false); // Evitar que el campo de texto sea editable
         txtHora.setOnClickListener(v -> showTimePickerDialog());
+
+        txtHoraLlegada = findViewById(R.id.txtHoraLlegada);
+        txtHoraLlegada.setFocusable(false); // Evitar que el campo de texto sea editable
+        txtHoraLlegada.setOnClickListener(v -> showTimePickerDialog());
         setCurrentTime();
 
         txtFecha = findViewById(R.id.txtFecha);
         txtFecha.setFocusable(false); // Evitar que el campo de texto sea editable
         txtFecha.setOnClickListener(v -> showDatePickerDialog());
-        setCurrentDate();
-
     }
-    int i = 0;
-    String hora, fecha, lugar,kilometraje,detalle;
-    public void verificarDatos(View v){
-        i=0;
-        hora = String.valueOf(txtHora.getText());
-        fecha = String.valueOf(txtFecha.getText());
-        lugar = String.valueOf(txtLugar.getText());
-        kilometraje = String.valueOf(txtKilometraje.getText());
-        detalle = String.valueOf(txtDetalle.getText());
+    String extractedUID;
+    public void cargarDatos(){
+        try{
+            SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
+            extractedUID = sharedPreferences.getString("UIDtemp", "");
 
-        if(fecha.isEmpty()){
-            txtFecha.setError("Ingrese la fecha");
-            i=1;
-        }
-        if(hora.isEmpty()){
-            txtHora.setError("Ingrese la hora");
-            i=1;
-        }
-        if(lugar.isEmpty()){
-            txtLugar.setError("Ingrese el lugar de salida");
-            i=1;
-        }
-        if(kilometraje.isEmpty()){
-            txtKilometraje.setError("Ingrese el kilometraje inicial");
-            i=1;
-        }
-        if(detalle.isEmpty()){
-            txtDetalle.setError("Ingrese el detalle de actividad");
-            i=1;
-        }
-        if(i==0){
-            iniciarViaje();
-        }
-    }
-    public void iniciarViaje(){
-        SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
-        String extractedUIDinsert = sharedPreferences.getString("UIDtemp", "");
+            BDConnection bd = new BDConnection(this,"bitacora",null,1);
+            SQLiteDatabase baseBitacora = bd.getWritableDatabase();
+            String loginQuery = "SELECT * FROM TemporalesSesion WHERE UID='"+extractedUID+"'";
+            Cursor datos = baseBitacora.rawQuery(loginQuery,null);
 
-        BDConnection bd = new BDConnection(this,"bitacora",null,1);
-        SQLiteDatabase baseBitacora = bd.getWritableDatabase();
-        String insertarUsuario = "INSERT INTO TemporalesSesion(UID,KilometrajeInicio,DestinoSalida, Fecha, HoraSalida,DetalleActividad) " +
-                "VALUES('"+extractedUIDinsert+"','"+kilometraje+"','"+lugar+"','"+fecha+"','"+hora+"','"+detalle+"')";
-        baseBitacora.execSQL(insertarUsuario);
-        Intent resultados = new Intent();
-        setResult(RESULT_OK, resultados);
-        Toast.makeText(this,"Viaje Iniciado", Toast.LENGTH_LONG).show();
-        finish();
+            if(datos.moveToFirst()){
 
+                txtKilometraje.setText(datos.getString(2));
+                txtLugar.setText(datos.getString(3));
+                txtHora.setText(datos.getString(5));
+                txtFecha.setText(datos.getString(4));
+                txtDetalle.setText(datos.getString(6));
+
+            }else{
+                Toast.makeText(this,"OPS!!", Toast.LENGTH_LONG).show();
+            }
+        }catch (SQLException ex){
+            Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
+        }
     }
 
     private void showTimePickerDialog() {
@@ -125,7 +104,7 @@ public class IniciarViaje extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a", Locale.getDefault());  // 'hh' for 12-hour format and 'a' for AM/PM
         String currentTime = timeFormat.format(calendar.getTime());
-        txtHora.setText(currentTime);
+        txtHoraLlegada.setText(currentTime);
     }
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
@@ -140,10 +119,5 @@ public class IniciarViaje extends AppCompatActivity {
 
         datePickerDialog.show();
     }
-    private void setCurrentDate() {
-        Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-        String currentDate = dateFormat.format(calendar.getTime());
-        txtFecha.setText(currentDate);
-    }
+
 }
