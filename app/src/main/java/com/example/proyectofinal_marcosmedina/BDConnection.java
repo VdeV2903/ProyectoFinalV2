@@ -33,7 +33,7 @@ public class BDConnection extends SQLiteOpenHelper {
                 "DestinoLlegada TEXT NOT NULL," +
                 "HoraSalida TEXT NOT NULL," +
                 "HoraLlegada TEXT NOT NULL," +
-                "DetalleActividad TEXT NOT NULL)");
+                "DetalleActividad TEXT NOT NULL)"); //falta agregar una tabla para el tipo de kilometros y por lo tanto una tbla de movimientodetallekilometros
 
         db.execSQL("CREATE TABLE MovimientosUsuarios(" +
                 "ID_MovimientoUsuario INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -41,6 +41,15 @@ public class BDConnection extends SQLiteOpenHelper {
                 "ID_Movimiento INTEGER NOT NULL, " +
                 "FOREIGN KEY(ID_Usuario) REFERENCES usuarios(ID_Usuario)," +
                 "FOREIGN KEY(ID_Movimiento) REFERENCES Movimientos(ID_Movimiento))");
+
+        db.execSQL("CREATE TABLE TemporalesSesion(" +
+                "ID_Sesion INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "UID TEXT NOT NULL," +
+                "KilometrajeInicio TEXT NOT NULL," +
+                "DestinoSalida TEXT NOT NULL," +
+                "HoraSalida TEXT NOT NULL," +
+                "DetalleActividad TEXT NOT NULL)");
+
     }
 
     @Override
