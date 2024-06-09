@@ -70,4 +70,8 @@ public class MenuPrincipal extends AppCompatActivity {
             estadoBoton = false;
         }
     }
+    public void iniciarViaje(View v){
+        Intent ins = new Intent(this,IniciarViaje.class);
+        startActivityForResult(ins,1);
+    }
 }

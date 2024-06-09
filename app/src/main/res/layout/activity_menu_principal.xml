@@ -50,7 +50,7 @@
         android:layout_marginEnd="16dp"
         android:backgroundTint="#D11515"
         android:onClick="cerrarSesion"
-        app:icon="@drawable/baseline_arrow_back_24"
+        app:icon="@drawable/baseline_logout_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -60,7 +60,7 @@
         android:layout_height="63dp"
         android:layout_marginTop="28dp"
         android:backgroundTint="#002160"
-        android:onClick="cambiar"
+        android:onClick="iniciarViaje"
         android:text="Iniciar Viaje"
         app:icon="@drawable/baseline_car_rental_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -80,7 +80,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btniniciardetener" />
 
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/txtNoViaje"
         android:layout_width="274dp"
         android:layout_height="30dp"
         android:text="No se ha iniciado ningun viaje"
@@ -91,14 +91,43 @@
         app:layout_constraintTop_toBottomOf="@+id/txtViajeBind" />
 
     <LinearLayout
-        android:layout_width="354dp"
-        android:layout_height="52dp"
+        android:id="@+id/lyInfo"
+        android:layout_width="346dp"
+        android:layout_height="208dp"
+        android:layout_marginTop="4dp"
         android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.491"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6">
+        app:layout_constraintTop_toBottomOf="@+id/txtNoViaje">
 
+        <TextView
+            android:id="@+id/txtInfoSalida"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Saliste de: ---"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtInfoHora"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hora: ---"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtInfoFecha"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Fecha: ---"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/txtInfoKilometraje"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Kilometraje Inicial: ---"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <Button
