@@ -14,7 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.Random;
 
 public class Register extends AppCompatActivity {
-    EditText nombre,usuario, correo, contrasenia;
+    private EditText nombre,usuario, correo, contrasenia, confirmarContrasenia;
 
 
     @Override
@@ -26,8 +26,9 @@ public class Register extends AppCompatActivity {
         usuario = (EditText) findViewById(R.id.txtUsuario);
         correo = (EditText) findViewById(R.id.txtCorreo);
         contrasenia = (EditText) findViewById(R.id.txtContrasenia);
+        confirmarContrasenia = findViewById(R.id.txtContraseniaConfirmar);
     }
-    String nombreExt, uidExt, usuarioExt, correoExt, contraseniaExt;
+    String nombreExt, uidExt, usuarioExt, correoExt, contraseniaExt,contraseniaConfirmarExt;
     int i = 0;
     public void registro(View v){
         try{
@@ -35,6 +36,7 @@ public class Register extends AppCompatActivity {
             usuarioExt = usuario.getText().toString();
             correoExt = correo.getText().toString();
             contraseniaExt = contrasenia.getText().toString();
+            contraseniaConfirmarExt = confirmarContrasenia.getText().toString();
             i = 0;
 
             if(nombreExt.isEmpty()){
@@ -51,6 +53,14 @@ public class Register extends AppCompatActivity {
             }
             if(contraseniaExt.isEmpty()){
                 contrasenia.setError("Introduzca su contraseña!");
+                i=1;
+            }
+            if(contraseniaExt.isEmpty()){
+                confirmarContrasenia.setError("Confirme su contraseña!");
+                i=1;
+            }
+            if(!contraseniaExt.equals(contraseniaConfirmarExt)){
+                confirmarContrasenia.setError("Las contraseñas no coinciden!");
                 i=1;
             }
 

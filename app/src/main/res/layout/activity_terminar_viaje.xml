@@ -191,6 +191,7 @@
         android:layout_height="63dp"
         android:layout_gravity="center_horizontal"
         android:backgroundTint="#002160"
+        android:onClick="verificarDatosFinal"
         android:text="Terminar Viaje"
         app:icon="@drawable/baseline_car_rental_24"
         app:layout_constraintEnd_toEndOf="parent"

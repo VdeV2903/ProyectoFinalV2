@@ -27,14 +27,15 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 public class MenuPrincipal extends AppCompatActivity {
-    TextView nombre, txtNoViajeR,txtInfoLugarSalidaS,txtInfoKilometrajeS, txtInfoHoraS,txtInfoDetalle,txtInfoFechaS;
-    View info;
-    Button inicioDetener;
+    private TextView nombre, txtNoViajeR,txtInfoLugarSalidaS,txtInfoKilometrajeS, txtInfoHoraS,txtInfoDetalle,txtInfoFechaS;
+    private View info;
+    private Button inicioDetener;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_menu_principal);
+
         nombre = (TextView) findViewById(R.id.txtvNombre);
         inicioDetener = (Button) findViewById(R.id.btniniciardetener);
         txtNoViajeR = findViewById(R.id.txtNoViaje);
@@ -64,31 +65,20 @@ public class MenuPrincipal extends AppCompatActivity {
             Cursor datos = baseBitacora.rawQuery(loginQuery,null);
 
             if(datos.moveToFirst()){
-                txtNoViajeR.setVisibility(View.GONE);
-                estadoBoton = false;
-                cambiarBoton();
-
                 txtInfoKilometrajeS.setText("Kilometraje Inicial: "+datos.getString(2)+" KM");
                 txtInfoLugarSalidaS.setText("Saliste de: "+datos.getString(3));
                 txtInfoHoraS.setText("Hora: "+datos.getString(4));
                 txtInfoFechaS.setText("Fecha: "+datos.getString(5));
+                estadoBoton=false;
             }else{
-                info.setVisibility(View.GONE);
+                estadoBoton=true;
             }
+            cambiarBoton();
         }catch (SQLException ex){
             Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
-    private static final int REQUEST_CODE = 1;
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                consultarViajeIniciado();
-            }
-        }
-    }
+
 
     public void cerrarSesion(View v) {
         SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
@@ -98,7 +88,7 @@ public class MenuPrincipal extends AppCompatActivity {
 
         Intent cerrar = new Intent(this, MainActivity.class);
         startActivity(cerrar);
-
+        finish();
     }
     private boolean isConnectedToInternet() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -113,20 +103,38 @@ public class MenuPrincipal extends AppCompatActivity {
         if(estadoBoton){
             inicioDetener.setBackgroundColor(Color.rgb(0,33,96));
             inicioDetener.setText("INICIAR VIAJE");
+            info.setVisibility(View.GONE);
+            txtNoViajeR.setVisibility(View.VISIBLE);
             estadoBoton = true;
         }else{
             inicioDetener.setBackgroundColor(Color.RED);
             inicioDetener.setText("TERMINAR VIAJE");
+            info.setVisibility(View.VISIBLE);
+            txtNoViajeR.setVisibility(View.GONE);
             estadoBoton = false;
         }
     }
     public void iniciarViaje(View v){
         if(estadoBoton){
-            Intent ins = new Intent(this,IniciarViaje.class);
-            startActivityForResult(ins,1);
+            Intent intIniciar = new Intent(this,IniciarViaje.class);
+            startActivityForResult(intIniciar,1);
         }else{
             Intent ins = new Intent(this,TerminarViaje.class);
-            startActivityForResult(ins,1);
+            startActivityForResult(ins,2);
+        }
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == RESULT_OK) {
+            Toast.makeText(this,"VIAJE INICIADO", Toast.LENGTH_LONG).show(); //por probar
+            estadoBoton=false;
+            consultarViajeIniciado();
+        }
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            Toast.makeText(this,"VIAJE TERMINADO", Toast.LENGTH_LONG).show(); //por probar
+            estadoBoton=true;
+            consultarViajeIniciado();
         }
     }
 }

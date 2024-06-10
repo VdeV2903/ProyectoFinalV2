@@ -1,8 +1,11 @@
 package com.example.proyectofinal_marcosmedina;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -27,7 +30,7 @@ import java.util.Locale;
 public class TerminarViaje extends AppCompatActivity {
     private TextInputEditText txtHora,txtHoraLlegada;
     private TextInputEditText txtFecha;
-    EditText txtLugar, txtKilometraje, txtDetalle;
+    private EditText txtLugar, txtKilometraje, txtDetalle,txtKilometrajeFinal, txtLugarLLegada;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,10 +38,14 @@ public class TerminarViaje extends AppCompatActivity {
         setContentView(R.layout.activity_terminar_viaje);
 
         txtHora = findViewById(R.id.txtHora);
+        txtHoraLlegada = findViewById(R.id.txtHoraLlegada);
         txtFecha = findViewById(R.id.txtFecha);
         txtLugar = findViewById(R.id.txtLugarSalida);
+        txtLugarLLegada = findViewById(R.id.txtLugarLlegada);
         txtKilometraje = findViewById(R.id.txtKilometraje);
+        txtKilometrajeFinal = findViewById(R.id.txtKilometrajeFinal);
         txtDetalle = findViewById(R.id.txtDetalle);
+
 
         cargarDatos();
 
@@ -81,6 +88,100 @@ public class TerminarViaje extends AppCompatActivity {
             Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
         }
     }
+    int i = 0;
+    private String hora;
+    private String horaLlegada;
+    private String fecha;
+    private String lugarLlegada;
+    private String kilometraje;
+    private String kilometrajeFinal;
+    private String detalle;
+    private String lugarInicio;
+    public void verificarDatosFinal(View v){
+        i=0;
+        hora = String.valueOf(txtHora.getText());
+        horaLlegada = String.valueOf(txtHoraLlegada.getText());
+        fecha = String.valueOf(txtFecha.getText());
+        lugarInicio = String.valueOf(txtLugar.getText());
+        lugarLlegada = String.valueOf(txtLugar.getText());
+        kilometraje = String.valueOf(txtKilometraje.getText());
+        kilometrajeFinal = String.valueOf(txtKilometraje.getText());
+
+        detalle = String.valueOf(txtDetalle.getText());
+
+        if(fecha.isEmpty()){
+            txtFecha.setError("Ingrese la Fecha");
+            i=1;
+        }
+        if(hora.isEmpty()){
+            txtHora.setError("Ingrese la Hora de Salida");
+            i=1;
+        }
+        if(horaLlegada.isEmpty()){
+            txtHoraLlegada.setError("Ingrese la Hora de Llegada");
+            i=1;
+        }
+        if(lugarInicio.isEmpty()){
+            txtLugar.setError("Ingrese el Lugar de Salida");
+            i=1;
+        }
+        if(lugarLlegada.isEmpty()){
+            txtLugarLLegada.setError("Ingrese el Lugar de Llegada");
+            i=1;
+        }
+        if(kilometraje.isEmpty()){
+            txtKilometraje.setError("Ingrese el Kilometraje Inicial");
+            i=1;
+        }
+        if(kilometrajeFinal.isEmpty()){
+            txtKilometrajeFinal.setError("Ingrese el Kilometraje Final");
+            i=1;
+        }
+        if(detalle.isEmpty()){
+            txtDetalle.setError("Ingrese el Detalle de Actividad");
+            i=1;
+        }
+        if(i==0){
+            AlertDialog.Builder confirmar = new AlertDialog.Builder(this);
+            confirmar.setMessage("¿DESEA TERMINAR EL VIAJE?");
+            confirmar.setTitle("TERMINAR VIAJE");
+            confirmar.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    terminarViaje();
+                }
+            });
+
+            confirmar.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            AlertDialog dialogo = confirmar.create();
+            dialogo.show();
+        }
+    }
+
+    public void terminarViaje(){
+        SharedPreferences sharedPreferences = getSharedPreferences("Preferencias", Context.MODE_PRIVATE);
+        String extractedUIDdelete = sharedPreferences.getString("UIDtemp", "");
+
+        BDConnection bd = new BDConnection(this,"bitacora",null,1);
+        SQLiteDatabase baseBitacora = bd.getWritableDatabase();
+        String eliminarUsuario = "DELETE FROM TemporalesSesion WHERE UID='"+extractedUIDdelete+"'";
+        baseBitacora.execSQL(eliminarUsuario);
+
+        Intent resultados = new Intent();
+        setResult(RESULT_OK, resultados);
+        resultados.putExtra("status","terminado");
+        finish();
+
+    }
+
+
+
+
 
     private void showTimePickerDialog() {
         Calendar calendar = Calendar.getInstance();

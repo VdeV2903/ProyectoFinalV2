@@ -108,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
             Intent login = new Intent(this, MenuPrincipal.class);
             Toast.makeText(this,"Sesión iniciada", Toast.LENGTH_SHORT).show();
             startActivity(login);
+            finish();
         }catch(SQLException ex){
             Toast.makeText(this,ex.getMessage(), Toast.LENGTH_LONG).show();
         }

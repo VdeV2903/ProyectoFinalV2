@@ -27,7 +27,7 @@ import java.util.Locale;
 public class IniciarViaje extends AppCompatActivity {
     private TextInputEditText txtHora;
     private TextInputEditText txtFecha;
-    EditText txtLugar, txtKilometraje, txtDetalle;
+    private EditText txtLugar, txtKilometraje, txtDetalle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +38,8 @@ public class IniciarViaje extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         txtLugar = findViewById(R.id.txtLugarSalida);
         txtKilometraje = findViewById(R.id.txtKilometraje);
         txtDetalle = findViewById(R.id.txtDetalle);
@@ -54,7 +56,7 @@ public class IniciarViaje extends AppCompatActivity {
 
     }
     int i = 0;
-    String hora, fecha, lugar,kilometraje,detalle;
+    private String hora, fecha, lugar,kilometraje,detalle;
     public void verificarDatos(View v){
         i=0;
         hora = String.valueOf(txtHora.getText());
@@ -98,7 +100,6 @@ public class IniciarViaje extends AppCompatActivity {
         baseBitacora.execSQL(insertarUsuario);
         Intent resultados = new Intent();
         setResult(RESULT_OK, resultados);
-        Toast.makeText(this,"Viaje Iniciado", Toast.LENGTH_LONG).show();
         finish();
 
     }
