@@ -139,7 +139,6 @@ public class MenuPrincipal extends AppCompatActivity {
     }
 
     public void verHistorial(View v){
-        Intent ins = new Intent(this,Historial.class);
-        startActivity(ins);
+
     }
 }
