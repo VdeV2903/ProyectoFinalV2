@@ -137,4 +137,9 @@ public class MenuPrincipal extends AppCompatActivity {
             consultarViajeIniciado();
         }
     }
+
+    public void verHistorial(View v){
+        Intent ins = new Intent(this,Historial.class);
+        startActivity(ins);
+    }
 }

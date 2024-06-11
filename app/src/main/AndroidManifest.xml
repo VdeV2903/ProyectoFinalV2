@@ -15,6 +15,12 @@
         android:theme="@style/Base.Theme.ProyectoFinal_MarcosMedina"
         tools:targetApi="31">
         <activity
+            android:name=".CustomListView"
+            android:exported="false" />
+        <activity
+            android:name=".Historial"
+            android:exported="false" />
+        <activity
             android:name=".TerminarViaje"
             android:exported="false" />
         <activity
